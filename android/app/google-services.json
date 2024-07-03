@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "819933262561",
+    "project_id": "krp-app-256b3",
+    "storage_bucket": "krp-app-256b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819933262561:android:8444ba3640e586911efda0",
+        "android_client_info": {
+          "package_name": "com.example.notification"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB30tIFb4SFVNnYvUk9Vs4HGabatcssaYI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
