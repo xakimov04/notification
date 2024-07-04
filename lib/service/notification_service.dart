@@ -180,7 +180,8 @@ class LocalNotificationsService {
       payload: "Salom",
     );
   }
-static Future<void> showScheduledNotificationForTask(String taskTitle) async {
+
+  static Future<void> showScheduledNotificationForTask(String taskTitle) async {
     const androidDetails = AndroidNotificationDetails(
       "goodChannelId",
       "goodChannelName",
@@ -232,6 +233,51 @@ static Future<void> showScheduledNotificationForTask(String taskTitle) async {
       0,
       "Task time has come",
       "Your task \"$taskTitle\" is now due.",
+      notificationDetails,
+    );
+  }
+
+  static Future<void> showNotificationTest(String title, String body) async {
+    const androidDetails = AndroidNotificationDetails(
+      "motivation_channel",
+      "Motivation Channel",
+      importance: Importance.max,
+      priority: Priority.max,
+      playSound: true,
+      sound: RawResourceAndroidNotificationSound("notification"),
+    );
+
+    const notificationDetails = NotificationDetails(
+      android: androidDetails,
+    );
+
+    await _localNotification.show(
+      0,
+      title,
+      body,
+      notificationDetails,
+    );
+  }
+
+  static Future<void> scheduleDailyMotivationNotification(
+      String title, String body) async {
+    const androidDetails = AndroidNotificationDetails(
+      "motivation_channel",
+      "Motivation Channel",
+      importance: Importance.max,
+      priority: Priority.max,
+      playSound: true,
+      sound: RawResourceAndroidNotificationSound("notification"),
+    );
+
+    const notificationDetails = NotificationDetails(
+      android: androidDetails,
+    );
+
+    await _localNotification.show(
+      0,
+      title,
+      body,
       notificationDetails,
     );
   }

@@ -75,7 +75,7 @@ class _TaskListViewState extends State<TaskListView> {
           ),
           FilledButton(
             style: const ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Colors.red),
+              backgroundColor: WidgetStatePropertyAll(Colors.red),
             ),
             onPressed: () {
               taskController.deleteTask(taskId);

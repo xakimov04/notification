@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:notification/controller/motivation_controller.dart';
 import 'package:notification/controller/task_controller.dart';
 import 'package:notification/firebase_options.dart';
 import 'package:notification/service/notification_service.dart';
@@ -13,28 +14,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await LocalNotificationsService.start();
+  scheduleMotivationNotification();
+  scheduleDailyMotivationNotification();
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-
-    Future.delayed(Duration.zero, () async {
-      if (!LocalNotificationsService.notificationsEnabled) {
-        await LocalNotificationsService.requestPermission();
-        setState(() {});
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +28,36 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(
           create: (context) => TaskController(),
-        )
+        ),
       ],
-      builder: (context, snapshot) {
-        return const MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: TaskListScreen(),
-        );
-      },
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: TaskListScreen(),
+      ),
     );
+  }
+}
+
+Future<void> scheduleMotivationNotification() async {
+  while (true) {
+    await LocalNotificationsService.showNotificationTest(
+        "Siz ko'p ishlamoqdasiz!",
+        "Dam olish vaqti keldi juda ko'p ishlash sizni jinni qilishi mumkin.");
+
+    await Future.delayed(const Duration(minutes: 1));
+  }
+}
+
+Future<void> scheduleDailyMotivationNotification() async {
+  final motivationController = MotivationController();
+
+  final motivations = await motivationController.getMotiv("happiness");
+  if (motivations.isNotEmpty) {
+    final motivation = motivations[0];
+    while (true) {
+      await LocalNotificationsService.scheduleDailyMotivationNotification(
+          motivation.author, motivation.quote);
+      await Future.delayed(const Duration(minutes: 2));
+    }
   }
 }
